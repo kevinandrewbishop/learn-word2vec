@@ -28,3 +28,20 @@ The only way I really learn an algorithm is to write it myself. At least a basic
 code to understand what was actually happening. Once I was confident I understood it, I wrote my own version without
 any bells or whistles to obfuscate the basic mechanics of word2vec. If I start up an analytics blog, this will
 definitely be an entry.
+
+## How did I make this
+Word2Vec is trained on a corpus of text. It could be a ton of google news articles, wikipedia pages, novels, etc. I wanted
+an extremely simple "corpus" that I could control to use as a test. So I generated a set of fake sentences via a method
+loosely inspired by [topic modeling](https://en.wikipedia.org/wiki/Topic_model). I have a set of topics like "breakfast"
+"animals" "work" "cute things" etc. I associate with each topic a set of 5-10 words like "eggs" or "computer." Some words
+fall in multiple topics (e.g. "dogs" fall under "animals" as well as "cute things"). I then randomly generate thousands of
+"sentences" about each topic (lists of words). So a breakfast sentence might look like "eggs bacon coffee coffee early."
+I also occasionally inject random off-topic words for (at least a hint of) realism.  
+
+I used the sentences as training data on gensim's Word2Vec model as a benchmark and proof of concept. As expected, gensim
+does a great job clustering all the various topics together. Words that are part of multiple topics tend to appear in the
+space between the clusters. Concretely, when I plot each word's 2d vector, words that share a topic show up in the same
+area.  
+
+Since I knew it was possible with gensim, it should work if I coded it up properly. Sure enough, the vectors by and large
+made sense. It wasn't quite as neat as genism's results, but it was clearly doing the right thing.
